@@ -4,50 +4,100 @@
     ViewBag.Title = "Dogs List";
 }
 <style>
-    .row{
-        padding-left:0px;
+    .row {
+        padding-left: 0px;
     }
-    .btn-group{
-        float:right;
+
+    .table {
+        text-align: center
     }
 </style>
 
 <div class="container">
-    <h2>Dogs list</h2>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    <h2>Dogs list</h2>    
 
-    <div class="row col-md-5">
-        <table class="table table-striped">
-            @foreach (var item in Model)
-            {
+    <div class="row col-md-8">
+        <table id="dogsDataTable" class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Breed)
-
-                        @if (item.Types.Count > 0)
-                        {
-                            <span class="badge">@item.Types.Count</span>
-                        }
-                    </td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="...">
-                            <button class="btn btn-default" title="Edit" onclick="location.href='@Url.Action("Edit", "Dog",  new { id = item.ID })'">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            </button>
-                            <button class="btn btn-info" title="More information" onclick="location.href='@Url.Action("Details", "Dog",  new { id = item.ID })'">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                            </button>
-                            <button class="btn btn-danger" title="Delete" onclick="location.href='@Url.Action("Delete", "Dog",  new { id = item.ID })'">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </button>
-                        </div>
-                       
-                    </td>
+                    <th style="text-align: center;">Breed</th>
+                    <th style="text-align: center;">Type</th>
+                    <th style="text-align: center;">Controls</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    int rowSpan = item.Types.Count;
 
+                    if (item.Types.Count > 0)
+                    {
+                        foreach (var type in item.Types)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Breed)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => type.Type)
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <button class="btn btn-default" title="Edit" onclick="location.href='@Url.Action("Edit", "Dog",  new { id = item.ID })'">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                        </button>
+                                        <button class="btn btn-info" title="More information" onclick="location.href='@Url.Action("Details", "Dog",  new { id = item.ID })'">
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                        </button>
+                                        <button class="btn btn-danger" title="Delete" onclick="location.href='@Url.Action("Delete", "Dog",  new { id = item.ID })'">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Breed)
+                            </td>
+                            <td></td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <button class="btn btn-default" title="Edit" onclick="location.href='@Url.Action("Edit", "Dog",  new { id = item.ID })'">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-info" title="More information" onclick="location.href='@Url.Action("Details", "Dog",  new { id = item.ID })'">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-danger" title="Delete" onclick="location.href='@Url.Action("Delete", "Dog",  new { id = item.ID })'">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    $(document).ready(function ()
+    {
+        $('#dogsDataTable').DataTable({
+            "columnDefs": [
+                { "orderable": false, "targets": 1 }
+            ],
+            rowsGroup: [
+                0,
+                2
+            ]
+        });
+    });
+</script>

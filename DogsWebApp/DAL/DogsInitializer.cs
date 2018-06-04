@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DogsWebApp.DAL
 {
-    public class DogsInitializer : System.Data.Entity.DropCreateDatabaseAlways<DogsContext>
+    public class DogsInitializer : System.Data.Entity.CreateDatabaseIfNotExists<DogsContext>
     {
         protected override void Seed(DogsContext context)
         {

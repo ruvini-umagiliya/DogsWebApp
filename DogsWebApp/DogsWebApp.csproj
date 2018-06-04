@@ -149,7 +149,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DogController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\DogsContext.cs" />
     <Compile Include="DAL\DogsInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -195,10 +194,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Dog\Create.cshtml" />
     <Content Include="Views\Dog\Delete.cshtml" />
     <Content Include="Views\Dog\Details.cshtml" />
     <Content Include="Views\Dog\Edit.cshtml" />

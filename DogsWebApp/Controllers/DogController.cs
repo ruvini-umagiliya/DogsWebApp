@@ -36,29 +36,6 @@ namespace DogsWebApp.Controllers
             return View(dog);
         }
 
-        // GET: Dog/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Dog/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Breed")] Dog dog)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Dogs.Add(dog);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(dog);
-        }
-
         // GET: Dog/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -79,11 +56,24 @@ namespace DogsWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Breed,Types")] Dog dog)
+        public ActionResult Edit(Dog dog, string submitDetails)
         {
+            if(submitDetails.Equals("Back"))
+            {
+                return RedirectToAction("Index");
+            }
+
             if (ModelState.IsValid)
             {
-                dog.Types.ForEach(t => t.Dog = dog);
+                if (dog.Types != null)
+                {
+                    dog.Types.ForEach(t =>
+                    {
+                        t.Dog = dog;
+                        db.Entry(t).State = EntityState.Modified;
+                    });
+                }
+
                 db.Entry(dog).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -3,20 +3,7 @@
 @{
     ViewBag.Title = "Edit";
 }
-<style>
-    .table-borderless > tbody > tr > td,
-    .table-borderless > tbody > tr > th,
-    .table-borderless > tfoot > tr > td,
-    .table-borderless > tfoot > tr > th,
-    .table-borderless > thead > tr > td,
-    .table-borderless > thead > tr > th {
-        border: none;
-    }
 
-    .table {
-        margin-bottom: 0px;
-    }
-</style>
 
 <div class="container">
     <h2>Edit</h2>
@@ -33,48 +20,58 @@
         <div class="form-group row col-md-5">
             <table class="table table-borderless">
                 <tr>
-                    <td>
+                    <td class="col-md-1">
                         @Html.LabelFor(model => model.Breed, htmlAttributes: new { @class = "control-label col-md-1" })
                     </td>
-                    <td>
+                    <td class="col-md-10">
                         @Html.EditorFor(model => model.Breed, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Breed, "", new { @class = "text-danger" })
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-1" rowspan="@rowSpanCount">
-                        @Html.LabelFor(model => model.Types, htmlAttributes: new { @class = "control-label col-md-1" })
-                    </td>
-                </tr>
-                @for (var count = 0; count < Model.Types.Count; count++)
+                @if (Model.Types.Count > 0)
                 {
-                <tr>
-                    @Html.HiddenFor(model => model.Types[count].ID)
-                    @Html.HiddenFor(model => model.Types[count].DogID)
+                    <tr>
+                        <td class="col-md-1" rowspan="@rowSpanCount">
+                            @Html.LabelFor(model => model.Types, htmlAttributes: new { @class = "control-label col-md-1" })
+                        </td>
+                    </tr>
+                    for (var count = 0; count < Model.Types.Count; count++)
+                    {
+                        <tr>
+                            @Html.HiddenFor(model => model.Types[count].ID)
+                            @Html.HiddenFor(model => model.Types[count].DogID)
 
-                    <td class="col-md-10">
-                        @Html.EditorFor(model => model.Types[count].Type, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Types[count].Type, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
+                            <td class="col-md-10">
+                                @Html.EditorFor(model => model.Types[count].Type, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Types[count].Type, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    }
                 }
             </table>
-
-
-
         </div>
 
         <div class="form-group row">
             <div class="col-md-offset-1 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label for="saveBtn" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</label>
+                <input class="btn btn-primary" name="submitDetails" id="saveBtn" title="Save" type="submit" value="Save" style="display:none" />
+
+                <label for="indexBtn" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> Back to List</label>
+                <input class="btn btn-primary" name="submitDetails" id="indexBtn" title="Back to list" type="submit" value="Back" style="display:none" />
+                @*<button class="btn btn-primary" name="submitDetails" id="saveBtn" title="Save" type="submit">
+            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+            Save
+        </button>
+
+        <button class="btn btn-default" name="submitDetails" id="indexBtn" title="Go back to the list" type="submit">
+            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+            Back to List
+        </button>*@
             </div>
         </div>
 
-    }
-</div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>
 
 @section Scripts {
