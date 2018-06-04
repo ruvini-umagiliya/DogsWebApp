@@ -1,0 +1,35 @@
+﻿@model DogsWebApp.Models.Dog
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="container">
+
+    <h2>Details</h2>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Breed, new { @class = "col-md-1 col-form-label" })
+        <div class="col-sm-5">
+            @Html.DisplayFor(model => model.Breed, new { @class = "col-dm-2 col-form-control" })
+        </div>
+    </div>
+
+    @if (Model.Types.Count > 0)
+    {
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Types, new { @class = "col-md-1 col-form-label" })
+
+            <ul class="list-group col-md-2">
+                @foreach (var item in Model.Types)
+                {
+                    <li type="button" class="list-group-item list-group-item-action">@item.Type</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

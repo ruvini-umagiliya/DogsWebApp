@@ -1,0 +1,82 @@
+﻿@model DogsWebApp.Models.Dog
+
+@{
+    ViewBag.Title = "Edit";
+}
+<style>
+    .table-borderless > tbody > tr > td,
+    .table-borderless > tbody > tr > th,
+    .table-borderless > tfoot > tr > td,
+    .table-borderless > tfoot > tr > th,
+    .table-borderless > thead > tr > td,
+    .table-borderless > thead > tr > th {
+        border: none;
+    }
+
+    .table {
+        margin-bottom: 0px;
+    }
+</style>
+
+<div class="container">
+    <h2>Edit</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        int rowSpanCount = Model.Types.Count + 1;
+
+        <div class="form-group row col-md-5">
+            <table class="table table-borderless">
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.Breed, htmlAttributes: new { @class = "control-label col-md-1" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Breed, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Breed, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-1" rowspan="@rowSpanCount">
+                        @Html.LabelFor(model => model.Types, htmlAttributes: new { @class = "control-label col-md-1" })
+                    </td>
+                </tr>
+                @for (var count = 0; count < Model.Types.Count; count++)
+                {
+                <tr>
+                    @Html.HiddenFor(model => model.Types[count].ID)
+                    @Html.HiddenFor(model => model.Types[count].DogID)
+
+                    <td class="col-md-10">
+                        @Html.EditorFor(model => model.Types[count].Type, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Types[count].Type, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                }
+            </table>
+
+
+
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+
+    }
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
