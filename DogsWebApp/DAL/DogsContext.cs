@@ -1,16 +1,12 @@
 ﻿using DogsWebApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Web;
 
 namespace DogsWebApp.DAL
 {
     public class DogsContext : DbContext
     {
-        public DogsContext() : base("DogsCon")
+        public DogsContext() : base(ConnectionHelper.GetRDSConnectionString() ?? "DefaultConnection")
         {
         }
 

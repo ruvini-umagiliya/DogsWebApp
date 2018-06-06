@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DogsWebApp.DAL;
+using DogsWebApp.Models;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using DogsWebApp.DAL;
-using DogsWebApp.Models;
 
 namespace DogsWebApp.Controllers
 {
@@ -58,13 +55,15 @@ namespace DogsWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Dog dog, string submitDetails)
         {
-            if(submitDetails.Equals("Back"))
+            if (submitDetails.Equals("Back"))
             {
                 return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
             {
+                // if the dog has sub types then add the dog object to the type since it won't get it from the model and then make sure the status is changed
+                // so that it will be saved 
                 if (dog.Types != null)
                 {
                     dog.Types.ForEach(t =>
@@ -72,6 +71,11 @@ namespace DogsWebApp.Controllers
                         t.Dog = dog;
                         db.Entry(t).State = EntityState.Modified;
                     });
+
+                    // removes any types from the list where the type is empty
+                    var emptyTypes = dog.Types.Where(t => string.IsNullOrEmpty(t.Type));
+                    if (emptyTypes != null)
+                        db.BreedTypes.RemoveRange(emptyTypes);
                 }
 
                 db.Entry(dog).State = EntityState.Modified;
